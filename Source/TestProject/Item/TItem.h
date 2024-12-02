@@ -24,6 +24,28 @@ enum class EItemName : uint8
 	Sword,
 };
 
+// 블루프린트로만 생성
+// USTRUCT(BlueprintType)
+// struct TESTPROJECT_API FItemStruct
+// {
+// 	GENERATED_BODY()
+//
+// 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowPrivateAccess))
+// 	FText ItemName;
+//
+// 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowPrivateAccess))
+// 	FText Description;
+//
+// 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowPrivateAccess))
+// 	TObjectPtr<UTexture2D> ItemImage;
+//
+// 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowPrivateAccess))
+// 	int32 StackSize;
+//
+// 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowPrivateAccess))
+// 	EItemType ItemType;
+// };
+
 
 UCLASS()
 class TESTPROJECT_API ATItem : public AActor
@@ -72,4 +94,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item", meta = (AllowPrivateAccess))
 	TObjectPtr<UTexture2D> ItemImage;
 
+	//
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item", meta = (AllowPrivateAccess))
+	TObjectPtr<class UTItemComponent> ItemComponent;
+	
 };

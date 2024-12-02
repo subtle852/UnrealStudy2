@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Game/TPlayerController.h"
+#include "Inventory/TInventorySystemComponent.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -53,6 +54,9 @@ ATestProjectCharacter::ATestProjectCharacter()
 
 	RightWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightWeapon"));
 	RightWeapon->SetupAttachment(GetMesh(), FName(TEXT("RightWeapon")));
+
+	InventorySystemComponent = CreateDefaultSubobject<UTInventorySystemComponent>(TEXT("InventorySystemComponent"));
+	
 	
 }
 

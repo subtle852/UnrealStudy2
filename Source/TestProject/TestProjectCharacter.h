@@ -68,6 +68,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test", meta = (AllowPrivateAccess))
 	TObjectPtr<class ATItem> Item;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test", meta = (AllowPrivateAccess))
+	TObjectPtr<class UTInventorySystemComponent> InventorySystemComponent;
+
 	
 };
 
