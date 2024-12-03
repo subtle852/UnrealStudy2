@@ -7,6 +7,8 @@
 #include "InputActionValue.h"
 #include "TestProjectCharacter.generated.h"
 
+class UTInventorySystemComponent;
+
 UCLASS(config=Game)
 class ATestProjectCharacter : public ACharacter
 {
@@ -61,6 +63,15 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	UFUNCTION(BlueprintCallable)
+	void SetItem(ATItem* InItem) { Item = InItem; }
+	
+	UFUNCTION(BlueprintCallable)
+	ATItem* GetItem() {return Item;}
+	
+	UFUNCTION(BlueprintCallable)
+	UTInventorySystemComponent* GetInventorySystemComponent() {return InventorySystemComponent;}
+	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test", meta = (AllowPrivateAccess))
 	TObjectPtr<UStaticMeshComponent> RightWeapon;
@@ -69,7 +80,7 @@ protected:
 	TObjectPtr<class ATItem> Item;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test", meta = (AllowPrivateAccess))
-	TObjectPtr<class UTInventorySystemComponent> InventorySystemComponent;
+	TObjectPtr<UTInventorySystemComponent> InventorySystemComponent;
 
 	
 };

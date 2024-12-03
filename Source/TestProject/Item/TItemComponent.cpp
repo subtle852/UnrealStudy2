@@ -3,6 +3,10 @@
 
 #include "TItemComponent.h"
 
+#include "TItem.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "TestProject/Inventory/TInventorySystemComponent.h"
+
 
 // Sets default values for this component's properties
 UTItemComponent::UTItemComponent()
@@ -31,5 +35,16 @@ void UTItemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UTItemComponent::Interact(ATestProjectCharacter* PlayerCharacter)
+{
+	UTInventorySystemComponent* InventorySystemComponent = PlayerCharacter->GetInventorySystemComponent();
+	if(IsValid(InventorySystemComponent))
+	{
+		InventorySystemComponent->AddItem(ItemAmount, ItemData.RowName);
+
+		//GetOwner()->Destroy();
+	}
 }
 

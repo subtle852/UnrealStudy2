@@ -3,6 +3,10 @@
 
 #include "TItem.h"
 
+#include "TItemComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "TestProject/TestProjectCharacter.h"
+
 
 // Sets default values
 ATItem::ATItem()
@@ -31,6 +35,8 @@ ATItem::ATItem()
 	//
 	ItemType = EItemType::None;
 	ItemName = EItemName::None;
+
+	ItemComponent = CreateDefaultSubobject<UTItemComponent>(TEXT("ItemComponent"));
 	
 }
 
@@ -38,6 +44,8 @@ ATItem::ATItem()
 void ATItem::BeginPlay()
 {
 	Super::BeginPlay();
+
+	
 }
 
 // Called every frame
@@ -50,11 +58,19 @@ void ATItem::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	WidgetComponent->SetVisibility(true);
+	PlayerCharacter = Cast<ATestProjectCharacter>(OtherActor);
+	PlayerCharacter->SetItem(this);
+	
+	//UKismetSystemLibrary::PrintString(this, FString::Printf(TEXT(" %s"), *this->GetName()));
 }
 
 void ATItem::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex)
 {
 	WidgetComponent->SetVisibility(false);
+	PlayerCharacter = Cast<ATestProjectCharacter>(OtherActor);
+	PlayerCharacter->SetItem(nullptr);
+
+	//UKismetSystemLibrary::PrintString(this, FString::Printf(TEXT(" Item None")));
 }
 
