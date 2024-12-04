@@ -16,6 +16,7 @@ class TESTPROJECT_API UTCustomWidget : public UUserWidget
 
 public:
 	FORCEINLINE void SetOwningActor(AActor* NewOwner) { OwningActor = NewOwner; }
+	FORCEINLINE AActor* GetOwningActor() const { return OwningActor; }
 
 protected:
 	// 현재 위젯을 소유하고 있는 액터 저장용 변수

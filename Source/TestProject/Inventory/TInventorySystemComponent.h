@@ -49,6 +49,9 @@ public:
 	std::pair<bool, int32> CheckSlotEmpty();
 	
 	void AddToNewSlot(FName ItemKey, int32 Amount = 1);
+
+
+	const TArray<FSlot>& GetSlots() { return Slots; }
 	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess))

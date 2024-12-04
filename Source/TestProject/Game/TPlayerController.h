@@ -25,9 +25,13 @@ class TESTPROJECT_API ATPlayerController : public APlayerController
     	virtual void BeginPlay() override;
 
     private:
-    	UPROPERTY();
+		UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = ATPlayerController, meta = (AllowPrivateAccess))
     	TObjectPtr<UTHUD> HUDWidgetInstance;
     
-    	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = ATPlayerController, meta = (AllowPrivateAccess));
+    	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = ATPlayerController, meta = (AllowPrivateAccess))
     	TSubclassOf<UTHUD> HUDWidgetClass;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ATPlayerController, meta = (AllowPrivateAccess))
+		uint8 bIsInventoryOpen : 1;
+	
 };
