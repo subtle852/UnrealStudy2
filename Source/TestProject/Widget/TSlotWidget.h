@@ -17,6 +17,10 @@ protected:
 	virtual void NativePreConstruct() override;
 	
 	virtual void NativeConstruct() override;
+
+	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+
+	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	
 public:
 	void SetItemKey(FName InItemKey) { ItemKey = InItemKey; }
@@ -41,4 +45,26 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ExposeOnSpawn))
 	int32 ItemAmount;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess))
+	TObjectPtr<class UTDragWidget> DragWidgetInstance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess))// 직접 설정 필요!!!!!
+	TSubclassOf<UTDragWidget> DragWidgetClass;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess))
+	TObjectPtr<class UTInventorySystemComponent> InventorySystemComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ExposeOnSpawn, pAllowPrivateAccess))
+	int32 ContentIndex;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess))
+	TObjectPtr<class UTDragDropInventory> DragDropInventoryInstance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess))// 직접 설정 필요!!!!!
+	TSubclassOf<UTDragDropInventory> DragDropInventoryClass;
+
+	
 };
