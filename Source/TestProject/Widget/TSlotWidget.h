@@ -21,6 +21,8 @@ protected:
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
+
+	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	
 public:
 	void SetItemKey(FName InItemKey) { ItemKey = InItemKey; }
@@ -28,6 +30,12 @@ public:
 
 	void SetItemAmount(int32 InItemAmount) { ItemAmount = InItemAmount; };
 	int32 GetItemAmount() const { return ItemAmount; }
+
+	void SetInventorySystem(class UTInventorySystemComponent* InInventorySystem) { InventorySystemComponent = InInventorySystem; }
+	UTInventorySystemComponent* GetInventorySystemComponent() const { return InventorySystemComponent; }
+
+	void SetContentIndex(int32 InContentIndex) { ContentIndex = InContentIndex; };
+	int32 GetContentIndex() const { return ContentIndex; }
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))

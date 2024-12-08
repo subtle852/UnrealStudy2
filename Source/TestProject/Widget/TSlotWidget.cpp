@@ -15,6 +15,7 @@
 #include "Blueprint/WidgetBlueprintLibrary.h" 
 #include "Input/Reply.h"
 #include "Input/Events.h" 
+#include "TestProject/Inventory/TInventorySystemComponent.h"
 
 void UTSlotWidget::NativePreConstruct()
 {
@@ -123,5 +124,24 @@ void UTSlotWidget::NativeOnDragDetected(const FGeometry& InGeometry, const FPoin
 			OutOperation = DragOperation;
 		}
 	}
+	
+}
+
+bool UTSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
+	UDragDropOperation* InOperation)
+{
+	bool Return = Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+
+	UTDragDropInventory* Operation = Cast<UTDragDropInventory>(InOperation);
+	
+	if(Operation->GetContextIndex() != ContentIndex
+		|| Operation->GetInventorySystemComponent() != InventorySystemComponent)
+	{
+		InventorySystemComponent->ChangeSlot(ContentIndex, Operation->GetInventorySystemComponent(), Operation->GetContextIndex());
+
+		return true;
+	}
+
+	return Return;
 	
 }

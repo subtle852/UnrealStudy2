@@ -29,9 +29,7 @@ void UTInventoryWidget::UpdateInventory(UTInventorySystemComponent* InInventoryS
 	if(InInventorySystemComponent)
 	{
 		InventorySystemComponent = InInventorySystemComponent;
-
-		WrapBox->ClearChildren();
-
+		
 		UpdateSlots(InventorySystemComponent->GetSlots());
 	}
 	else
@@ -43,17 +41,32 @@ void UTInventoryWidget::UpdateInventory(UTInventorySystemComponent* InInventoryS
 
 void UTInventoryWidget::UpdateSlots(const TArray<FSlot>& InSlotsArray)
 {
-	for (auto Element : InSlotsArray)
+	InventorySystemComponent->OnInventoryUpdated.RemoveAll(this);
+	InventorySystemComponent->OnInventoryUpdated.AddDynamic(this, &ThisClass::UpdateInventoryDrop);
+
+	WrapBox->ClearChildren();
+	
+	for (int i = 0; i < InSlotsArray.Max(); ++i)
 	{
-		UTSlotWidget* SlotWidgetInstance = CreateWidget<UTSlotWidget>(this, SlotWidgetClass);
+		SlotWidgetInstance = CreateWidget<UTSlotWidget>(this, SlotWidgetClass);
 		if (IsValid(SlotWidgetInstance) == true)
 		{
-			SlotWidgetInstance->SetItemKey(Element.ItemName);
-			SlotWidgetInstance->SetItemAmount(Element.Amount);
+			SlotWidgetInstance->SetItemKey(InSlotsArray[i].ItemName);
+			SlotWidgetInstance->SetItemAmount(InSlotsArray[i].Amount);
+			SlotWidgetInstance->SetInventorySystem(InventorySystemComponent);
+			SlotWidgetInstance->SetContentIndex(i);
 
 			WrapBox->AddChild(SlotWidgetInstance);
 		}
-		
+	}
+
+}
+
+void UTInventoryWidget::UpdateInventoryDrop()
+{
+	if(InventorySystemComponent)
+	{
+		UpdateSlots(InventorySystemComponent->GetSlots());
 	}
 }
 

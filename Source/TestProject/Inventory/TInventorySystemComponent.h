@@ -7,6 +7,8 @@
 #include "Engine/DataTable.h"
 #include "TInventorySystemComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryUpdated);
+
 USTRUCT(BlueprintType)
 struct FSlot : public FTableRowBase
 {
@@ -27,6 +29,9 @@ class TESTPROJECT_API UTInventorySystemComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UTInventorySystemComponent();
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnInventoryUpdated OnInventoryUpdated;
 
 protected:
 	// Called when the game starts
@@ -50,7 +55,8 @@ public:
 	
 	void AddToNewSlot(FName ItemKey, int32 Amount = 1);
 
-
+	void ChangeSlot(int32 TargetIndex, UTInventorySystemComponent* BeforeInventorySystemComponent, int32 BeforeIndex);
+	
 	const TArray<FSlot>& GetSlots() { return Slots; }
 	
 protected:

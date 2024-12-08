@@ -154,3 +154,30 @@ void UTInventorySystemComponent::AddToNewSlot(FName ItemKey, int32 Amount)
 	Slots[emptySlotIndex].Amount = Amount;
 }
 
+void UTInventorySystemComponent::ChangeSlot(int32 TargetIndex,
+	UTInventorySystemComponent* BeforeInventorySystemComponent, int32 BeforeIndex)
+{
+	FSlot BeforeSlot = BeforeInventorySystemComponent->Slots[BeforeIndex];
+	FSlot TargetSlot = Slots[TargetIndex];
+	
+	if(TargetIndex >= 0)
+	{
+		//if(BeforeSlot.ItemName != TargetSlot.ItemName)
+		// 서로 같은 아이템인 경우 스택 처리나 교환을 하고 싶지 않다면
+		// 여기서 추가 작업
+		{
+			// 교체
+			BeforeInventorySystemComponent->Slots[BeforeIndex] = TargetSlot;
+			Slots[TargetIndex] = BeforeSlot;
+
+			// 델리게이트 호출
+			// UTInventoryWidget::UpdateInventoryDrop() 바인드 되어있는 상태
+			OnInventoryUpdated.Broadcast();
+			if (BeforeInventorySystemComponent != this)
+			{
+				BeforeInventorySystemComponent->OnInventoryUpdated.Broadcast();
+			}
+		}
+	}
+}
+

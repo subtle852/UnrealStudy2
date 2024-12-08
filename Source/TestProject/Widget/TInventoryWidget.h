@@ -27,6 +27,9 @@ public:
 	void UpdateInventory(UTInventorySystemComponent* InInventorySystemComponent);
 
 	void UpdateSlots(const TArray<FSlot>& InSlotsArray);
+
+	UFUNCTION()
+	void UpdateInventoryDrop();
 	
 
 protected:
@@ -38,7 +41,10 @@ protected:
 	TObjectPtr<UTInventorySystemComponent> InventorySystemComponent;
 
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess));
+	TObjectPtr<class UTSlotWidget> SlotWidgetInstance;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess));// 직접 설정 필요!!!!!
-	TSubclassOf<class UTSlotWidget> SlotWidgetClass;
+	TSubclassOf<UTSlotWidget> SlotWidgetClass;
 	
 };

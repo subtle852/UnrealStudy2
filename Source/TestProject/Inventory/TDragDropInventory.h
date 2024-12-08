@@ -16,8 +16,10 @@ class TESTPROJECT_API UTDragDropInventory : public UDragDropOperation
 
 public:
 	void SetInventorySystemComponent(class UTInventorySystemComponent* InInventorySystemComponent) { InventorySystemComponent = InInventorySystemComponent; }
-
+	UTInventorySystemComponent* GetInventorySystemComponent() const { return InventorySystemComponent; }
+	
 	void SetContextIndex(int32 InContextIndex) { ContentIndex = InContextIndex; }
+	int32 GetContextIndex() const { return ContentIndex; }
 	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ExposeOnSpawn, AllowPrivateAccess))
