@@ -24,6 +24,9 @@ class TESTPROJECT_API ATPlayerController : public APlayerController
     	ATPlayerController();
     	virtual void BeginPlay() override;
 
+public:
+		void ShowOrRemoveInventoryInController();
+
     private:
 		UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = ATPlayerController, meta = (AllowPrivateAccess))
     	TObjectPtr<UTHUD> HUDWidgetInstance;

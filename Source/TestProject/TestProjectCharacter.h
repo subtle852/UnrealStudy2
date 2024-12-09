@@ -39,6 +39,12 @@ class ATestProjectCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* PickUpAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InventoryAction;
+	
 public:
 	ATestProjectCharacter();
 
@@ -49,6 +55,10 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	void PickUp(const FInputActionValue& Value);
+
+	void ShowOrRemoveInventory(const FInputActionValue& Value);
 			
 
 protected:

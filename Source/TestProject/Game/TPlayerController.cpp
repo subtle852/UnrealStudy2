@@ -25,3 +25,19 @@ void ATPlayerController::BeginPlay()
 		HUDWidgetInstance->AddToViewport();
 	}
 }
+
+void ATPlayerController::ShowOrRemoveInventoryInController()
+{
+	if(bIsInventoryOpen == true)
+	{
+		GetHUDWidget()->RemoveInventoryMenu();
+		bIsInventoryOpen = false;
+	}
+	else
+	{
+		GetHUDWidget()->ShowInventoryMenu();
+		bIsInventoryOpen = true;
+	}
+
+	
+}

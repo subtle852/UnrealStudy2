@@ -27,6 +27,8 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
+	FDataTableRowHandle GetItemData() const { return ItemData; }
+	
 	UFUNCTION(BlueprintCallable)
 	virtual void Interact(ATestProjectCharacter* PlayerCharacter) override;
 	

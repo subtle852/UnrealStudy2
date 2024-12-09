@@ -22,6 +22,9 @@ protected:
 
 	virtual void NativeDestruct() override;
 
+public:
+	UTInventoryWidget* GetInventoryWidget() const { return InventoryWidget; }
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UTInventoryWidget> InventoryWidget;

@@ -9,10 +9,15 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "DSP/AudioDebuggingUtilities.h"
 #include "Game/TPlayerController.h"
 #include "Inventory/TInventorySystemComponent.h"
 #include "Inventory/TQuickSlotSystem.h"
+#include "Item/TItem.h"
+#include "Item/TItemComponent.h"
 #include "Widget/THUD.h"
+#include "Widget/TInventoryMenuWidget.h"
+#include "Widget/TInventoryWidget.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -84,6 +89,18 @@ void ATestProjectCharacter::BeginPlay()
 	}
 }
 
+void ATestProjectCharacter::UpdateInventory()
+{
+	if (ATPlayerController* PlayerController = Cast<ATPlayerController>(Controller))
+	{
+		UTInventoryMenuWidget* InventoryMenuWidget = PlayerController->GetHUDWidget()->GetInventoryMenuWidget();
+		if(IsValid(InventoryMenuWidget))
+		{
+			InventoryMenuWidget->GetInventoryWidget()->UpdateInventory(InventorySystemComponent);
+		}
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -102,6 +119,11 @@ void ATestProjectCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATestProjectCharacter::Look);
 
+		// the Others
+		EnhancedInputComponent->BindAction(PickUpAction, ETriggerEvent::Started, this, &ATestProjectCharacter::PickUp);
+
+		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Started, this, &ATestProjectCharacter::ShowOrRemoveInventory);
+		
 	}
 
 }
@@ -139,6 +161,60 @@ void ATestProjectCharacter::Look(const FInputActionValue& Value)
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+
+void ATestProjectCharacter::PickUp(const FInputActionValue& Value)
+{
+	if(IsValid(Item) == false)
+		return;
+	
+	UTItemComponent* ItemComponent = Cast<UTItemComponent>(Item->GetComponentByClass(UTItemComponent::StaticClass()));
+	if(IsValid(ItemComponent) == false)
+		return;
+
+	auto DataTable = ItemComponent->GetItemData().DataTable;
+	if (IsValid(DataTable) == false)
+		return;
+
+	FName RowName = ItemComponent->GetItemData().RowName;
+	const FItemStruct* ItemRow = DataTable->FindRow<FItemStruct>(RowName, "None");
+
+	switch (ItemRow->ItemType)
+	{
+	case EItemType::Weapon:
+		{
+			RightWeapon->SetStaticMesh(Item->GetMeshComponent()->GetStaticMesh());
+			if (ATPlayerController* PlayerController = Cast<ATPlayerController>(Controller))
+			{
+				PlayerController->GetHUDWidget()->SetItemName(ItemRow->ItemName);
+				PlayerController->GetHUDWidget()->SetItemImage(ItemRow->ItemImage);
+			}
+			Item->SetLifeSpan(0.01f);
+
+			break;
+		}
+
+	case EItemType::Consumable:
+		{
+			ItemComponent->Interact(this);
+			UpdateInventory();
+
+			break;
+		}
+
+	default:
+		break;
+	}
+
+	
+}
+
+void ATestProjectCharacter::ShowOrRemoveInventory(const FInputActionValue& Value)
+{
+	if (ATPlayerController* PlayerController = Cast<ATPlayerController>(Controller))
+	{
+		PlayerController->ShowOrRemoveInventoryInController();
 	}
 }
 

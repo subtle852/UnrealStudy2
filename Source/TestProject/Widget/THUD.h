@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "TCustomWidget.h"
+#include "Components/Image.h"
+#include "Components/TextBlock.h"
 #include "THUD.generated.h"
 
 class UTInventoryMenuWidget;
@@ -26,6 +28,17 @@ public:
 
 	UFUNCTION()
 	void UpdateQuickSlot(UTQuickSlotSystem* InQuickSlotSystem);
+
+
+	UTInventoryMenuWidget* GetInventoryMenuWidget() const { return InventoryMenuWidgetInstance; }
+
+	void SetItemName(FText InItemName) { ItemName->SetText(InItemName); } 
+
+	void SetItemImage(class UTexture2D* InTexture2D) const
+	{
+		ItemImage->SetBrushFromTexture(InTexture2D);
+		ItemImage->SetColorAndOpacity({1.0f, 1.0f, 1.0, 1.0f});
+	}
 	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
