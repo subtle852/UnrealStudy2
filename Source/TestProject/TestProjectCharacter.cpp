@@ -11,6 +11,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "Game/TPlayerController.h"
 #include "Inventory/TInventorySystemComponent.h"
+#include "Inventory/TQuickSlotSystem.h"
+#include "Widget/THUD.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -56,7 +58,8 @@ ATestProjectCharacter::ATestProjectCharacter()
 	RightWeapon->SetupAttachment(GetMesh(), FName(TEXT("RightWeapon")));
 
 	InventorySystemComponent = CreateDefaultSubobject<UTInventorySystemComponent>(TEXT("InventorySystemComponent"));
-	
+
+	QuickSlotSystemComponent = CreateDefaultSubobject<UTQuickSlotSystem>(TEXT("QuickSlotSystemComponent"));
 	
 }
 
@@ -72,6 +75,12 @@ void ATestProjectCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
+	}
+
+	// Initialize QuickSlot
+	if (ATPlayerController* PlayerController = Cast<ATPlayerController>(Controller))
+	{
+		PlayerController->GetHUDWidget()->InitializeQuickSlot(QuickSlotSystemComponent);
 	}
 }
 

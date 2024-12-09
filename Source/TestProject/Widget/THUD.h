@@ -21,7 +21,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveInventoryMenu();
+	
+	void InitializeQuickSlot(class UTQuickSlotSystem* InQuickSlotSystem);
 
+	UFUNCTION()
+	void UpdateQuickSlot(UTQuickSlotSystem* InQuickSlotSystem);
+	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<class UTextBlock> ItemName;
@@ -38,5 +43,15 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess))
 	TObjectPtr<UTCustomWidget> CustomWidget;
+
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess))
+	//TObjectPtr<class UTQuickSlotWidget> QuickSlotWidgetInstance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess))// 직접 설정 필요!!!!!
+	TSubclassOf<class UTQuickSlotWidget> QuickSlotWidgetClass;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	TObjectPtr<class UWrapBox> WrapBox;
 	
 };

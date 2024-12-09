@@ -8,6 +8,7 @@
 #include "TestProjectCharacter.generated.h"
 
 class UTInventorySystemComponent;
+class UTQuickSlotSystem;
 
 UCLASS(config=Game)
 class ATestProjectCharacter : public ACharacter
@@ -57,6 +58,10 @@ protected:
 	// To add mapping context
 	virtual void BeginPlay();
 
+	void UpdateInventory();
+	
+	void InitializeQuickSlot();
+	
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -81,6 +86,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test", meta = (AllowPrivateAccess))
 	TObjectPtr<UTInventorySystemComponent> InventorySystemComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test", meta = (AllowPrivateAccess))
+	TObjectPtr<UTQuickSlotSystem> QuickSlotSystemComponent;
 
 	
 };
